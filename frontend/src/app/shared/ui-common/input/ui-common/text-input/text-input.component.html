@@ -1,0 +1,90 @@
+<article *ngIf="inputFormControl" class="relative gap-2 flex flex-col" (focusin)="hasFieldBeenFocused = true">
+
+  <!-- Label Section: Displays the input field's label and indicates if the field is optional. -->
+  <section *ngIf="shouldShowLabel" id="{{ label + '-label-section'}}">
+    <app-input-label
+      [label]="label"
+      [isFieldOptional]="isFieldOptional"
+      [maxLength]="maxLength"
+      [showOptional]="showOptional"
+      [currentLength]="inputFormControl.value.length">
+    </app-input-label>
+  </section>
+
+  <!-- Input Section: Contains the main input field, including icons and validation styles. -->
+  <section id="{{ label + '-input-section'}}" class="rounded-lg flex flex-row text-sm font-roboto items-center text-light-text-primary dark:text-neutral-white ring-2 outline-none"
+           [ngClass]="{
+              'cursor-not-allowed ring-transparent': inputFormControl.disabled,
+              'ring-transparent' : inputFormControl.enabled && !inputFormControl.value && !shouldShowError,
+              'ring-red-80': shouldShowError,
+              'ring-primary-80' : inputFormControl.enabled && inputFormControl.value,
+              'focus-within:ring-primary-80 hover:ring-primary-80' : inputFormControl.enabled,
+              'bg-neutral-white': isBackgroundInverted,
+              'bg-gray-10 dark:bg-gray-120': !isBackgroundInverted }">
+
+    <!-- Left Icon: Shows an icon to the left of the input, if provided. -->
+    <app-icon
+      *ngIf="leftIcon"
+      [icon]="leftIcon"
+      (click)="onLeftIconClick()"
+      class="text-xl md:text-2xl pl-4 cursor-text"
+      [ngClass]="{ 'opacity-50': inputFormControl.disabled }">
+    </app-icon>
+
+    <!-- Input Field: The actual input element where users can enter data. -->
+    <input
+      id="{{ label + '-text-input' }}"
+      [maxlength]="maxLength"
+      [type]="isFieldPassword ? passwordInputType : initialInputType"
+      [formControl]="inputFormControl" placeholder="{{ placeholder }}"
+      (blur)="handleBlur()" [autocomplete]="autocompleteValue"
+      class="py-4 px-4 bg-transparent outline-none w-full placeholder-gray-70 dark:placeholder-neutral-white"
+      [ngClass]="{ 'cursor-not-allowed': inputFormControl.disabled }">
+
+    <!-- Right Icon: For password fields, toggles visibility of the password. -->
+    <app-icon
+      *ngIf="isFieldPassword"
+      [icon]="shouldShowPassword ? 'eye-slash' : 'eye'"
+      (click)="toggleShowPassword()"
+      class="text-xl md:text-2xl pr-4 cursor-pointer"
+      [ngClass]="{ 'opacity-50': inputFormControl.disabled }">
+    </app-icon>
+
+    <!-- Error Icon: Displays an error icon with a tooltip if there is a validation error. -->
+    <app-input-error-icon
+      *ngIf="shouldShowError && showErrors"
+      [errors]="inputFormControl.errors"
+      class="flex">
+    </app-input-error-icon>
+  </section>
+
+  <!-- Password Complexity Section: Lists the password complexity requirements if applicable. -->
+  <section *ngIf="autocompleteValue === 'new-password'" >
+
+    <article class="w-full h-0 rounded-md gap-2 flex flex-col opacity-0 transition-height transition-opacity duration-1000"
+             [ngClass]="{
+             'h-full opacity-100 p-4': hasFieldBeenFocused,
+             'bg-neutral-white': isBackgroundInverted,
+             'bg-gray-10 dark:bg-gray-120': !isBackgroundInverted}">
+
+      <h5 class="text-base font-roboto text-accent-100">Password must contain:</h5>
+
+      <!-- Complexity Requirements: Iterates through the password complexity keys and displays them with an icon indicating if the requirement is met. -->
+      <article class="flex flex-row gap-1" *ngFor="let key of passwordComplexityValidatorKeys">
+
+        <!-- Validator Status Icon: Indicates rather the validator is met or not. -->
+        <app-icon
+          [icon]="!inputFormControl.hasError(key.key) && inputFormControl.value ? 'check' : 'times'"
+          [ngClass]="!inputFormControl.hasError(key.key) && inputFormControl.value ? 'text-green-100' : 'text-red-100'">
+        </app-icon>
+
+        <!-- Validator Text: Show a text describing what to include to satisfy the validator -->
+        <p class="text-xs font-quicksand text-accent-60">At least
+          <span class="font-bold text-accent-100 font-roboto">
+          {{key.partialMessage}}
+          </span>
+        </p>
+      </article>
+    </article>
+  </section>
+</article>

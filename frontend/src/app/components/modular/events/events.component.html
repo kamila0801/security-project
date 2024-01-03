@@ -1,0 +1,52 @@
+<section>
+  <!--Filter_bar------------------------------------------------------------------------------------------------------->
+  <app-filter-bar *ngIf="withFilterBar"
+    [filtersArray]="filtersArray"
+    (applyFiltersEmitter)="fetchEvents(true)">
+  </app-filter-bar>
+  <!--Infinite_scroll_container---------------------------------------------------------------------------------------->
+  <section class="mt-2 grid grid-cols-cards gap-4"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollUpDistance]="1.5"
+    [infiniteScrollThrottle]="300"
+    [alwaysCallback]="true"
+    (scrolled)="fetchEvents()">
+      <!--Event_cards-------------------------------------------------------------------------------------------------->
+      <app-event-card *ngFor="let event of eventStore.events.data; let i = index"
+        [event]="event"
+        [infLoadStore]="infLoadStore"
+        (imageLoaded)="cdr.detectChanges()">
+      </app-event-card>
+      <!--No_results_found_card---------------------------------------------------------------------------------------->
+      <app-event-card *ngIf="eventStore.events.data && eventStore.events.data.length === 0"
+        [infoType]="InfoCardType.NO_RESULTS_FOUND"
+        (infoCardClicked)="handleInfoCardClick($event)">
+      </app-event-card>
+      <!--Scroll_to_top_card------------------------------------------------------------------------------------------->
+      <app-event-card *ngIf="eventStore.events.data && eventStore.events.data.length >= eventStore.totalCount && eventStore.events.data.length > 0"
+        [infoType]="InfoCardType.BOTTOM_REACHED"
+        (infoCardClicked)="handleInfoCardClick($event)">
+      </app-event-card>
+  </section>
+  <div *ngIf="false"
+    class="col-span-full text-center">
+    <button
+      (click)="scrollToTop()"
+      class="bg-blue-500 text-white px-4 py-2 rounded">
+      Scroll to Top
+    </button>
+  </div>
+  <!--Load_more_button------------------------------------------------------------------------------------------------->
+  <app-button *ngIf="infLoadStore.canLoadMore && eventStore.events.data && eventStore.events.data.length !== 0 && eventStore.events.status !== RequestStatusType.LOADING"
+    class="flex justify-center my-7"
+    text="Load more"
+    [color]="'primary-100'"
+    [size]="FieldSizes.EXTRA_SMALL"
+    (click)="loadMoreWithButton()">
+  </app-button>
+  <!--Loader_for_button------------------------------------------------------------------------------------------------>
+  <app-scroll-loader *ngIf="!infLoadStore.canLoadMore && eventStore.events.data && eventStore.events.data.length !== 0 && eventStore.events.data.length < eventStore.totalCount">
+  </app-scroll-loader>
+
+</section>

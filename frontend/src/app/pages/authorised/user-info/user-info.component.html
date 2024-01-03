@@ -1,0 +1,55 @@
+<section>
+  <app-title title="User details"></app-title>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-1000 mx-auto">
+
+    <app-input-field
+      [label]="'First name'"
+      [placeholder]="'First name'"
+      [formControlToUse]="asFormControl(formGroup.get(FormControlNames.firstName))">
+    </app-input-field>
+
+    <app-input-field
+      [label]="'Last name'"
+      [placeholder]="'Last name'"
+      [formControlToUse]="asFormControl(formGroup.get(FormControlNames.lastName))">
+    </app-input-field>
+
+    <app-input-field
+      [label]="'Email'"
+      [placeholder]="'Email'"
+      [formControlToUse]="asFormControl(formGroup.get(FormControlNames.email))">
+    </app-input-field>
+
+    <app-input-field
+      [label]="'Phone number'"
+      [placeholder]="'Phone number'"
+      [formControlToUse]="asFormControl(formGroup.get(FormControlNames.phoneNumber))">
+    </app-input-field>
+
+    <app-input-field
+      [label]="'Address'"
+      [placeholder]="'Address'"
+      [formControlToUse]="asFormControl(formGroup.get(FormControlNames.address))">
+    </app-input-field>
+
+    <app-input-field
+      [label]="'Post code'"
+      [placeholder]="'Post code'"
+      [formControlToUse]="asFormControl(formGroup.get(FormControlNames.postCode))">
+    </app-input-field>
+
+    <app-input-field
+      [label]="'City'"
+      [placeholder]="'City'"
+      [formControlToUse]="asFormControl(formGroup.get(FormControlNames.city))">
+    </app-input-field>
+  </div>
+
+  <app-button
+    class="mt-14 flex justify-center"
+    text="Save"
+    [color]="'primary-100'"
+    [size]="FieldSizes.EXTRA_SMALL"
+    (click)="updateUser()"
+    [disabled]="!formGroup.valid"></app-button>
+</section>

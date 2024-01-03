@@ -1,0 +1,102 @@
+<ng-container *ngIf="infoType; else contentCard">
+  <ng-template [ngTemplateOutlet]="information"></ng-template>
+</ng-container>
+
+<ng-template #contentCard>
+  <ng-container *ngIf="isLoadingLogo; else eventCard">
+    <ng-template [ngTemplateOutlet]="skeletonLoader"></ng-template>
+  </ng-container>
+</ng-template>
+
+<ng-template #eventCard>
+  <div *ngIf="event" class="relative w-full h-80 rounded-xl bg-neutral-white border-neutral-white border-4 dark:bg-gray-110 dark:border-gray-110">
+
+    <app-badge class="absolute top-2 left-2" [text]="event.organisationCategory"></app-badge>
+
+    <!-- img -->
+    <div class="w-full h-28 max-h-28 rounded-t-xl" [style.background-color]="event.colorHex">
+      <img *ngIf="imageSrc" [src]="imageSrc" class="w-full h-full rounded-t-xl"/>
+    </div>
+
+    <div class="flex p-3 gap-3">
+      <!-- date -->
+      <div class="flex flex-col items-center">
+        <div class="text-primary-100 font-bold text-xs">{{(event.date | date:'MMM') | uppercase}}</div>
+        <div class="text-neutral-black dark:text-neutral-white font-semibold text-xl">{{event.date | date:'d'}}</div>
+      </div>
+      <!-- info -->
+      <div class="flex flex-col">
+        <div class="text-neutral-black dark:text-neutral-white font-semibold text-base">{{event.name}}</div>
+        <div class="text-neutral-black dark:text-neutral-white font-normal text-xs">{{event.shortDescription}}</div>
+        <div class="flex gap-1 mt-2">
+                <span class="w-5 h-5 bg-green-100 rounded flex items-center justify-center">
+                    <i class="uil uil-money-bill text-neutral-white text-md"></i>
+                </span>
+          <span class="text-green-100 font-semibold text-sm">{{event.price}} DKK</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- bottom info -->
+    <div class="absolute bottom-0 flex px-3 py-1 border-t-2 border-gray-20 dark:border-gray-90 items-center gap-2 w-full">
+      <img src="/assets/svgs/temp-profile-pic.svg" class="w-8 h-8 rounded"/>
+      <div class="flex flex-col leading-tight">
+        <span class="text-neutral-black dark:text-neutral-white text-xs">{{event.organisationName}}</span>
+        <span class="text-gray-80 dark:text-neutral-white text-xxs">{{event.organisationEventsCount}} Events</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #skeletonLoader>
+  <div class="relative w-full h-80 rounded-xl bg-neutral-white border-neutral-white border-4 dark:bg-gray-110 dark:border-gray-110">
+
+    <!-- Image Skeleton -->
+    <div class="w-full h-28 max-h-28 rounded-t-xl bg-gray-300 animate-pulse bg-gray-20"></div>
+
+    <div class="flex p-4 gap-4">
+      <!-- Date Skeleton -->
+      <div class="flex flex-col items-center gap-2">
+        <div class="bg-gray-300 rounded w-10 h-3 animate-pulse bg-gray-20"></div>
+        <div class="bg-gray-300 rounded w-7 h-6 animate-pulse bg-gray-20"></div>
+      </div>
+      <!-- Event Info Skeleton -->
+      <div class="flex flex-col gap-2">
+        <div class="bg-gray-300 rounded w-40 h-4 animate-pulse bg-gray-20"></div>
+        <div class="bg-gray-300 rounded w-52 h-3 animate-pulse bg-gray-20"></div>
+        <div class="flex gap-1 mt-2">
+          <span class="w-6 h-6 bg-gray-300 rounded animate-pulse bg-gray-20"></span>
+          <span class="bg-gray-300 rounded w-16 h-4 animate-pulse bg-gray-20"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Organisation Info Skeleton -->
+    <div class="absolute bottom-0 flex px-4 py-1 border-t-2 border-gray-20 dark:border-gray-90 items-center gap-2 w-full">
+      <div class="w-8 h-8 bg-gray-300 rounded-full animate-pulse bg-gray-20"></div>
+      <div class="flex flex-col leading-tight gap-2">
+        <span class="bg-gray-300 rounded w-24 h-3 animate-pulse bg-gray-20"></span>
+        <span class="bg-gray-300 rounded w-16 h-2 animate-pulse bg-gray-20"></span>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #information>
+  <div class="flex relative w-full h-96 rounded-xl bg-neutral-white border-neutral-white border-4 dark:bg-gray-110 dark:border-gray-110">
+    <div class="flex items-center flex-col justify-center space-y-4">
+      <i class="uil uil-{{infoCardDetails.mainIcon}} text-gray-100 text-7xl"></i>
+      <div class="flex flex-col space-y-2 px-4 text-center items-center">
+        <span class="text-base text-gray-100 font-bold font-rubik">{{infoCardDetails.title}}</span>
+        <span class="text-xs text-gray-70 font-normal font-rubik">{{infoCardDetails.description}}</span>
+      </div>
+      <app-button
+        (click)="onInfoCardClick()"
+        [icon]="infoCardDetails.btnIcon"
+        [text]="infoCardDetails.btnText"
+        [color]="'primary-100'"
+        [size]="FieldSizes.EXTRA_SMALL">
+      </app-button>
+    </div>
+  </div>
+</ng-template>

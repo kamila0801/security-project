@@ -1,0 +1,56 @@
+<nav class="w-20 z-50 fixed transition-all duration-200 top-0 left-0 bg-neutral-white dark:bg-gray-110 h-screen flex flex-col flex items-center justify-center text-text-primary text-neutral-black dark:text-neutral-white font-rubik pt-7 pb-8 gap-3">
+  <div class="flex gap-2 items-center border-b-2 border-text-primary pb-4 mb-2">
+      <img src="/assets/svgs/logo.svg" class="w-10 h-10"/>
+      <!--p class="font-semibold text-xl transition-opacity duration-200 truncate"  [ngClass]="{ 'opacity-100': isSidebarOpen, 'opacity-0': !isSidebarOpen }">Eventor</p-->
+  </div>
+  <div id="svgWrapper" class="blob absolute rounded-2xl transition-all duration-200 h-12 z-40 pointer-events-none" [ngClass]="{ 'w-52': isSidebarOpen, 'w-12': !isSidebarOpen }">
+    <svg id="sideBarItemContainer" class="transition-all duration-200" width="208px" height="48px" viewBox="0 0 208 48" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path id="sidebarItem" d="M22.2562 0.558024C27.9589 1.50183 31.8245 6.34057 35.6574 11.1147C39.9237 16.4286 46.1219 21.7024 44.825 28.6687C43.5168 35.6957 36.0281 38.1302 30.094 40.9979C24.5679 43.6685 18.6744 46.5827 13.1175 43.9921C7.28347 41.2723 4.08297 34.7349 2.25454 28.0193C0.209894 20.5095 -1.76555 11.7605 2.68007 5.65685C7.1099 -0.425073 15.2812 -0.596359 22.2562 0.558024Z" fill="transparent"/>
+    </svg>
+  </div>
+  <div id="sidebarBlob" class="absolute bg-primary-100 z-10 rounded-2xl transition-width duration-200"></div>
+  <div class="h-full flex flex-col justify-between">
+    <section class="flex flex-col space-y-4">
+      <app-sidebar-item (onClickEmitter)="handleItemClick($event)" [itemId]="'home'" [link]="navigationUrls.home" [iconName]="'uil-estate'" [text]="'Home'" [isSidebarOpen]="isSidebarOpen"></app-sidebar-item>
+      <app-sidebar-item (onClickEmitter)="handleItemClick($event)" [itemId]="'events'" [link]="navigationUrls.events" [iconName]="'uil-calendar-alt'" [text]="'Events'" [isSidebarOpen]="isSidebarOpen"></app-sidebar-item>
+      <app-sidebar-item (onClickEmitter)="handleItemClick($event)" [itemId]="'organisations'" [link]="navigationUrls.clubs" [iconName]="'uil-users-alt'" [text]="'Organizations'" [isSidebarOpen]="isSidebarOpen"></app-sidebar-item>
+      <app-sidebar-item (onClickEmitter)="handleItemClick($event)" [itemId]="'about'" [link]="navigationUrls.aboutUs" [iconName]="'uil-info-circle'" [text]="'About us'" [isSidebarOpen]="isSidebarOpen"></app-sidebar-item>
+    </section>
+
+    <section class="flex flex-col space-y-1">
+      <app-sidebar-item id="loginButton" (onClickEmitter)="handleItemClick($event); userStore.getToken ? userStore.logout() : ''" [isIconInverted]='!userStore.isLoggedIn' [solidColor]='true' [routerLink]="navigationUrls.login" [iconName]="userStore.getToken ? 'uil-sign-in-alt' : 'uil-sign-in-alt' " [text]="'Login'" [isSidebarOpen]="isSidebarOpen"></app-sidebar-item>
+      <app-sidebar-item (onClickEmitter)="handleItemClick($event)" [isColorModeToggle]='true' [text]="colorModeStore.isDarkMode ? 'Light mode' : 'Dark mode'" [isSidebarOpen]="isSidebarOpen"></app-sidebar-item>
+    </section>
+  </div>
+
+  <svg class="hidden" width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="blob1" fill-rule="evenodd" clip-rule="evenodd" d="M22.2562 0.558024C27.9589 1.50183 31.8245 6.34057 35.6574 11.1147C39.9237 16.4286 46.1219 21.7024 44.825 28.6687C43.5168 35.6957 36.0281 38.1302 30.094 40.9979C24.5679 43.6685 18.6744 46.5827 13.1175 43.9921C7.28347 41.2723 4.08297 34.7349 2.25454 28.0193C0.209894 20.5095 -1.76555 11.7605 2.68007 5.65685C7.1099 -0.425073 15.2812 -0.596359 22.2562 0.558024Z" fill="#C4C4C4"/>
+  </svg>
+  <svg class="hidden"  width="41" height="45" viewBox="0 0 41 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="blob2" fill-rule="evenodd" clip-rule="evenodd" d="M18.1962 0.0169305C24.4026 -0.414681 27.2941 7.5075 31.4034 12.1786C35.0756 16.353 39.9377 19.8559 40.5137 25.3857C41.1369 31.3698 39.009 37.7098 34.4744 41.6639C30.1424 45.4412 23.9368 45.1277 18.1962 44.846C12.8361 44.5829 7.07656 44.0885 3.44133 40.1406C-0.100808 36.2939 -0.368732 30.5749 0.276881 25.3857C0.840177 20.8582 4.07432 17.6226 6.70657 13.8961C10.3087 8.79642 11.9677 0.450085 18.1962 0.0169305Z" fill="#C4C4C4"/>
+  </svg>
+  <svg class="hidden"  width="43" height="45" viewBox="0 0 43 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="blob3" fill-rule="evenodd" clip-rule="evenodd" d="M23.2095 0.0125393C28.2192 0.237754 32.6819 3.34558 35.6692 7.3734C38.2825 10.8969 37.1486 15.5129 37.9099 19.8332C38.9958 25.9952 44.1611 32.2238 40.9997 37.6234C37.6318 43.3759 29.8609 45.3816 23.2095 44.9415C16.8946 44.5238 11.9201 40.0656 7.62701 35.4156C3.55184 31.0017 -0.371841 25.8273 0.0281851 19.8332C0.412234 14.0784 5.19308 9.94852 9.57672 6.20039C13.5198 2.82896 18.0268 -0.220453 23.2095 0.0125393Z" fill="#C4C4C4"/>
+  </svg>
+  <svg class="hidden"  width="45" height="37" viewBox="0 0 45 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="blob4" fill-rule="evenodd" clip-rule="evenodd" d="M22.2173 1.48687C27.2608 1.65865 32.5788 -0.431004 36.751 2.40762C41.5294 5.6586 45.5752 11.1978 44.9326 16.9413C44.3136 22.4741 38.0507 24.9243 33.8261 28.5501C30.1357 31.7175 27.0104 35.6136 22.2173 36.4372C16.5105 37.4178 10.1427 37.1877 5.79143 33.3672C1.2572 29.3862 -0.150995 22.973 0.0125525 16.9413C0.171459 11.0808 1.84674 4.73179 6.65868 1.38269C11.0839 -1.69725 16.8289 1.30335 22.2173 1.48687Z" fill="#C4C4C4"/>
+  </svg>
+  <svg class="hidden"  width="42" height="45" viewBox="0 0 42 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="blob5" fill-rule="evenodd" clip-rule="evenodd" d="M19.3083 2.71278C24.8581 2.98821 30.9184 0.115673 35.3242 3.50164C40.0091 7.10206 41.295 13.6102 41.1746 19.5176C41.0567 25.2997 38.4509 30.505 34.6844 34.8936C30.5324 39.7314 25.6809 45.1766 19.3083 44.9956C13.0068 44.8166 8.12919 39.386 4.78162 34.0442C2.09545 29.7579 3.83582 24.5518 3.34169 19.5176C2.74012 13.3885 -2.6223 6.29352 1.61965 1.82889C5.8469 -2.62027 13.1787 2.40857 19.3083 2.71278Z" fill="#C4C4C4"/>
+  </svg>
+  <svg class="hidden"  width="45" height="41" viewBox="0 0 45 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="blob6" fill-rule="evenodd" clip-rule="evenodd" d="M24.2632 0.000250515C29.6331 -0.0415679 33.1826 5.16075 36.7583 9.16728C40.0447 12.8497 42.7665 16.7968 43.5959 21.6624C44.6274 27.713 46.8642 35.6916 41.8941 39.2933C36.8438 42.9531 30.4678 36.3073 24.2632 35.6722C19.3127 35.1655 14.2147 38.5098 9.90638 36.0192C4.67855 32.9969 -0.434708 27.6831 0.0293668 21.6624C0.485763 15.7413 7.53361 13.3181 11.9612 9.36039C15.9549 5.79057 18.9068 0.0419634 24.2632 0.000250515Z" fill="#C4C4C4"/>
+  </svg>
+  <svg class="hidden" width="39" height="45" viewBox="0 0 39 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="blob7" fill-rule="evenodd" clip-rule="evenodd" d="M21.3278 0.0179818C27.4288 -0.207625 34.1814 1.67098 37.6248 6.71237C40.8121 11.3787 37.376 17.3688 37.0316 23.0093C36.7259 28.0171 38.665 33.348 35.7494 37.4309C32.4695 42.0239 26.9717 44.9848 21.3278 44.9999C15.6725 45.0151 10.7655 41.5685 6.82864 37.5085C2.96303 33.5219 0.123362 28.561 0.00430737 23.0093C-0.117171 17.3446 2.34018 12.029 6.19315 7.87467C10.2114 3.54216 15.4228 0.236342 21.3278 0.0179818Z" fill="#C4C4C4"/>
+  </svg>
+  <svg class="hidden" width="48" height="48" viewBox="0 0 200 48" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path id="square" d="M 15,0 H 33 A 15,15 0 0 1 48,15 V 33 A 15,15 0 0 1 33,48 H 15 A 15,15 0 0 1 0,33 V 15 A 15,15 0 0 1 15,0 Z" fill="#D9D9D9"/>
+  </svg>
+  <svg class="hidden" width="208" height="48" viewBox="0 0 208 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="squareLong" d="M 15,0 H 193 A 15,15 0 0 1 208,15 V 33 A 15,15 0 0 1 193,48 H 15 A 15,15 0 0 1 0,33 V 15 A 15,15 0 0 1 15,0 Z" fill="#D9D9D9"/>
+  </svg>
+  <svg class="hidden" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none" preserveAspectRatio="none">
+    <path id="circle" d="M 20 40 A 20 20 0 0 0 20 0 A 20 20 0 0 0 20 40" fill="#D9D9D9"/>
+  </svg>
+</nav>

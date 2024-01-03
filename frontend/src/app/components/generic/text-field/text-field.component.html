@@ -1,0 +1,19 @@
+<div class="h-56 lg:h-96 rounded-2xl flex items-center bg-neutral-gray10 w-full relative"
+     [ngClass]="{
+  'bg-gray-10': greyBackground,
+  'dark:bg-gray-120': greyBackground,
+  'bg-neutral-white': !greyBackground,
+  'dark:bg-gray-110': !greyBackground}" >
+    <mat-form-field
+        class="text-sm absolute -top-1 flex w-full"
+        [formGroup]="formGroupToUse">
+        <mat-label>{{placeholder}}</mat-label>
+        <textarea
+            matInput
+            class="text-text-primary w-full h-full focus:outline-none placeholder-text-grey text-sm bg-transparent text-neutral-black dark:text-neutral-white"
+            style="resize: none !important"
+            [formControlName]="formControlNameToUse"
+            [maxlength]="maxLength"></textarea>
+
+    </mat-form-field>
+</div>

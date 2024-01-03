@@ -1,0 +1,58 @@
+<article class="bg-neutral-white dark:bg-gray-80 rounded-2xl w-full h-70vh z-30 p-6 flex flex-col">
+  <i class="uil uil-times text-2xl absolute float-right top-3 right-3" (click)="closeFiltersEmitter.emit()"></i>
+  <ng-container [ngTemplateOutlet]="currentView" class="h-full"></ng-container>
+  <!-- buttons -->
+  <app-filters-card-buttons
+    class="h-full"
+    (applyFiltersEmitter)="applyFiltersEmitter.emit()"
+    (closeFiltersEmitter)="closeFiltersEmitter.emit()">
+  </app-filters-card-buttons>
+</article>
+
+<ng-template #FILTERS_VIEW>
+  <app-title [title]="'Filters'"></app-title>
+  <section class="flex flex-col gap-4" [formGroup]="displayFormGroup">
+    <div *ngFor="let item of filtersArray">
+      <app-input-field *ngIf="item.type !== FilterType.PRICE_RANGE"
+         [formControlToUse]="getDisplayFormControl(item)"
+         [size]="FieldSizes.FULL"
+         [placeholder]="item.label"
+         [iconRight]="IconNames.arrowRight"
+         [greyBackground]="true"
+         (rightIconClick)="openFilter(item)"
+      ></app-input-field>
+
+      <!-- filter with price range -->
+      <app-slider-field *ngIf="item.type === FilterType.PRICE_RANGE"
+        [minFormControlToUse]="asFormControl(item.formControl.get(FormControlNames.minPrice))"
+        [maxFormControlToUse]="asFormControl(item.formControl.get(FormControlNames.maxPrice))"></app-slider-field>
+    </div>
+
+  </section>
+</ng-template>
+
+<ng-template #OPEN_FILTER class="h-full">
+  <section *ngIf="selectedFilter" class="h-full">
+    <div class="flex items-center gap-1 relative -left-1">
+      <i class="uil uil-arrow-left text-2xl mb-4" (click)="backToDefaultView()"></i>
+      <app-title [title]="selectedFilter.label"></app-title>
+    </div>
+
+
+    <!-- normal view -->
+    <div class="grid grid-cols-2 gap-3" *ngIf="selectedFilter.type !== FilterType.DATE">
+      <app-text-chip  *ngFor="let item of selectedFilter.items"
+        [text]="item.label"
+        [isActive]="isItemActive(item, selectedFilter)"
+        (click)="onItemSelected(item, selectedFilter)"></app-text-chip>
+    </div>
+
+    <!-- calendar -->
+    <app-date-select
+      *ngIf="selectedFilter.type === FilterType.DATE"
+      class="block mb-1"
+      [dateFormControl]="selectedFilter.formControl">
+    </app-date-select>
+
+  </section>
+</ng-template>

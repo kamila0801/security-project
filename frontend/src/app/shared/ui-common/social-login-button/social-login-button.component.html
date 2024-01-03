@@ -1,0 +1,12 @@
+<article>
+  <button
+    id="{{socialType + '-social-login-btn'}}"
+    type="button"
+    (click)="onClick.emit()"
+    class="rounded text-xs md:text-sm flex items-center justify-center gap-1 cursor-pointer bg-misc-facebook w-full outline-none capitalize text-neutral-white font-rubik font-medium h-10"
+    [ngClass]="{
+              'py-2.5 px-3': socialType !== 'google' }">
+    <img src="/assets/svgs/{{socialType}}.svg" class="h-6 w-6"/>
+    <p class="w-full">{{'Continue with ' + socialType}}</p>
+  </button>
+</article>

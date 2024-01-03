@@ -1,0 +1,211 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+//to hide arrows in input of type number
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Default styles for light mode */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    border: 0px solid transparent;
+    -webkit-text-fill-color: black;  /* Text color for light mode */
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  /* Adjusted styles for dark mode using Tailwind's dark variant */
+  .dark input:-webkit-autofill,
+  .dark input:-webkit-autofill:hover,
+  .dark input:-webkit-autofill:focus,
+  .dark textarea:-webkit-autofill,
+  .dark textarea:-webkit-autofill:hover,
+  .dark textarea:-webkit-autofill:focus,
+  .dark select:-webkit-autofill,
+  .dark select:-webkit-autofill:hover,
+  .dark select:-webkit-autofill:focus {
+    -webkit-text-fill-color: white;  /* Text color for dark mode */
+  }
+}
+
+@layer utilities {
+  .mat-select-search-grid {
+    display: grid;
+    grid-template-areas:
+      "search-icon search-input";
+    grid-template-columns: 24px 1fr;
+  }
+}
+
+//hide underline
+.mdc-line-ripple, .mat-pseudo-checkbox {
+  display: none !important;
+}
+//hide checkbox next to selected option
+.mat-pseudo-checkbox {
+  display: none !important;
+
+
+}
+//transparent background
+.mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+}
+//no opacity on hover
+.mat-mdc-form-field:hover .mat-mdc-form-field-focus-overlay {
+  opacity: 0 !important;
+}
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-focus-overlay {
+  opacity: 0 !important;
+
+
+
+}
+//arrow
+.mat-mdc-select-arrow {
+  @apply text-neutral-black;
+  @apply dark:text-neutral-white;
+}
+
+.mdc-menu-surface.mat-mdc-select-panel { // Mat select panel
+  border-radius: 1rem !important;
+  @apply bg-neutral-white #{!important};
+  @apply dark:bg-gray-110 #{!important};
+  @apply -mt-1 #{!important};
+}
+
+.mat-mdc-option { // mat option
+  height: fit-content #{!important};
+  min-height: 40px !important;
+}
+
+.mat-primary .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text { // Mat select current selected item
+  @apply font-rubik #{!important};
+  @apply text-sm #{!important};
+  @apply font-normal #{!important};
+  @apply text-neutral-black #{!important};
+  @apply dark:text-neutral-white #{!important};
+}
+
+.mdc-floating-label { // Mat select - Floating label
+  @apply font-rubik #{!important};
+  @apply text-xs #{!important};
+  @apply font-normal #{!important};
+  @apply text-neutral-black #{!important};
+  @apply dark:text-neutral-white #{!important};
+}
+
+.mat-mdc-select-value-text { // Value inside the mat select
+  @apply font-rubik #{!important};
+  @apply text-sm #{!important};
+  @apply font-bold #{!important};
+  @apply text-neutral-black #{!important};
+  @apply dark:text-neutral-white #{!important};
+}
+
+.mat-mdc-option .mdc-list-item__primary-text {
+  @apply text-neutral-black;
+  @apply dark:text-neutral-white;
+}
+
+.mat-mdc-option:hover:not(.mdc-list-item--disabled), .mat-mdc-option-active:not(.exclude), .exclude:hover {
+  @apply bg-gray-10 #{!important};
+  @apply text-neutral-black;
+  @apply dark:text-neutral-white;
+}
+
+.mat-mdc-option.mdc-list-item--selected:not(.mat-mdc-option-multiple):not(.mdc-list-item--disabled):not(.exclude) {
+  @apply bg-transparent #{!important};
+}
+
+.mat-mdc-option.mdc-list-item--disabled.include {
+  @apply opacity-100 #{!important};
+}
+
+.mat-mdc-option.mdc-list-item--disabled.include > .mdc-list-item__primary-text {
+  margin-right: 0 !important;
+  width: 100%;
+}
+
+.mat-mdc-select-arrow-wrapper {
+  @apply hidden #{!important};
+}
+
+// MAT SELECT FILTER
+.mat-filter {
+  @apply flex #{!important};
+  @apply gap-x-1.5 #{!important};
+  @apply bg-neutral-white #{!important};
+  @apply dark:bg-gray-110 #{!important};
+}
+
+.noResultsMessage { // The no results message from the mat select filter component
+  @apply hidden #{!important};
+}
+
+.mat-select-search-inner .mat-select-search-input  {
+  @apply font-rubik #{!important};
+  @apply text-xs #{!important};
+  @apply font-normal #{!important};
+  @apply text-neutral-black #{!important};
+  @apply dark:text-neutral-white #{!important};
+  @apply h-full #{!important};
+  @apply px-3 #{!important};
+}
+
+
+.custom-google-btn {
+  width: 240px !important;
+  display: flex !important;
+  justify-content: center !important;
+  @apply px-0 #{!important};
+}
+
+.mat-select-search-grid .mat-select-search-input {
+  grid-area: search-input;
+}
+
+.mat-select-search-grid .mat-select-search-custom-header-content {
+  grid-area: search-icon;
+}
+
+.mat-select-search-inner {
+  @apply mat-select-search-grid #{!important};
+  @apply px-4 #{!important};
+  @apply h-full #{!important};
+}
+
+.mat-select-search-inner .mat-divider {
+  @apply hidden #{!important};
+}
+
+/* tailwind.css or your custom CSS file */
+.custom-color-for-top-half {
+  background: linear-gradient(to bottom, #FF5733 50%, #3498db 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+// MAT CALENDAR
+
+// selected date color
+.mat-calendar-body-selected {
+  @apply bg-primary-100;
+}
+

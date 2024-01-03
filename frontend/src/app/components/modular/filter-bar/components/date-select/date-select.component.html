@@ -1,0 +1,21 @@
+<div class="grid grid-cols-2 gap-2 mb-2">
+  <app-text-chip
+  class="cursor-pointer"
+  [text]="'Single date'"
+  [isActive]="!isSelectRange"
+  (click)="isSelectRange = false;"></app-text-chip>
+
+  <app-text-chip
+    class="cursor-pointer"
+    [text]="'Date range'"
+    [isActive]="isSelectRange"
+    (click)="isSelectRange = true;"></app-text-chip>
+</div>
+
+<mat-card class="w-full rounded-2xl border-none border-0 bg-gray-10 shadow-none">
+  <mat-calendar
+    style="zoom: 80%"
+    [selected]="dateFormControl.value"
+    (selectedChange)="onDateSelected($event)">
+  </mat-calendar>
+</mat-card>

@@ -1,0 +1,55 @@
+<div *ngIf="label" class="font-semibold text-sm text-neutral-black dark:text-neutral-white">
+    {{label}}<span class="font-semibold text-sm text-primary-80" *ngIf="isFieldRequired()">*</span></div>
+
+<div class="h-10 rounded-xl flex items-center justify-between !text-neutral-black !dark:text-neutral-white"
+     *ngIf="formControlToUse"
+     [ngClass]="{
+  'bg-gray-10': greyBackground,
+  'dark:bg-gray-120': greyBackground,
+  'bg-neutral-white': !greyBackground,
+  'dark:bg-gray-110': !greyBackground,
+  'bg-gray-30': isDisabled
+}">
+    <app-icon-btn
+        *ngIf="iconLeft"
+        [iconName]="iconLeft"
+        [tabIndex]="-1"
+        [isBackground]="false"
+        [ngClass]="'text-'+iconLeftColor"
+        (click)="leftIconClick.emit()">
+    </app-icon-btn>
+
+  <div class="relative flex w-full">
+    <mat-form-field
+      class="text-sm absolute -top-7 flex w-full"
+      [class.-left-4]="iconLeft"
+      [class.ml-14]="marginLeft">
+      <mat-label class="text-neutral-black dark:text-neutral-white" *ngIf="!label">{{placeholder}}</mat-label>
+
+      <input *ngIf="!isMapInput"
+             matInput
+             class="w-full focus:outline-none text-sm bg-transparent text-neutral-black dark:text-neutral-white placeholder-neutral-black dark:placeholder-neutral-white overflow-ellipsis"
+             [type]="type"
+             [formControl]="formControlToUse"
+             [maxlength]="maxLength"
+             [placeholder]="placeholder"/>
+
+      <input *ngIf="isMapInput"
+             id="google-maps-input-field"
+             matInput
+             class="w-full focus:outline-none text-sm bg-transparent text-neutral-black dark:text-neutral-white placeholder-neutral-black dark:placeholder-neutral-white"
+             [type]="type"
+             [formControl]="formControlToUse"
+             [maxlength]="maxLength"
+             [placeholder]="placeholder"/>
+    </mat-form-field>
+  </div>
+
+    <app-icon-btn
+        *ngIf="iconRight"
+        class="flex justify-end"
+        [iconName]="iconRight"
+        [isBackground]="false"
+        [ngClass]="'text-'+iconRightColor"
+        (click)="rightIconClick.emit()"></app-icon-btn>
+</div>

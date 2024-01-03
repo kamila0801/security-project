@@ -1,0 +1,12 @@
+<div class="flex relative" [ngClass]="{'overflow-hidden': loaderStore.loadingStatus() === 'LOADING'}">
+  <app-sidebar class="hidden lg:flex"></app-sidebar>
+  <!-- page container -->
+  <div id="page-container" class="flex min-h-screen w-full bg-gray-10 dark:bg-gray-120 lg:ml-20"
+       [ngClass]="routerStore.url === NavigationUrls.login ? 'flex-col lg:flex-row' : 'flex-col'">
+    <app-login-loading-animation [class.lg:flex-1]="routerStore.url === NavigationUrls.login"></app-login-loading-animation>
+    <app-topbar [class.lg:hidden]="routerStore.url === NavigationUrls.login" class="px-3 lg:px-6"></app-topbar>
+    <div class="flex-1 w-full h-full" [ngClass]="{'px-3 lg:px-6': routerStore.url !== NavigationUrls.login}">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

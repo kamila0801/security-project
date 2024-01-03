@@ -1,0 +1,15 @@
+<section>
+    <app-title title="Organisations"></app-title>
+
+    <!-- fiters bar-->
+    <app-filter-bar></app-filter-bar>
+
+    <!-- organisations -->
+    <section class="mt-6 flex flex-row flex-wrap gap-4">
+        <app-organisation-card *ngFor="let organisation of organisationList"
+        [organisation]="organisation"
+        [routerLink]="'/organisation/' + organisation.id" [state]="{ organisation: organisation }"
+        class="cursor-pointer"></app-organisation-card>
+    </section>
+</section>
+

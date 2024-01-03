@@ -1,0 +1,207 @@
+<section>
+    <app-title title="Create Event"></app-title>
+
+    <!-- top bar (icons with steps)-->
+    <app-create-progress-bar
+        [items]="items"
+        (goTo)="currentView = $event"></app-create-progress-bar>
+
+    <!-- content -->
+    <section class="my-10 flex justify-center">
+        <ng-container [ngTemplateOutlet]="currentView"></ng-container>
+    </section>
+</section>
+
+<ng-template #GENERAL>
+    <section class="w-4/6 flex flex-col gap-4" [formGroup]="generalFormGroup">
+        <h2 class="text-xl lg:text-2xl text-text-primary font-bold font-rubik w-full lg:w-field-large lg:relative lg:right-9">
+            <i class="uil uil-archive text-2xl lg:text-3xl mr-2"></i>General info</h2>
+      <div class=" flex gap-3 flex-col lg:flex-row w-full ">
+        <app-input-field
+          [placeholder]="'Event title'"
+          [formControlToUse]="asFormControl(generalFormGroup.get(FormControlNames.name))"></app-input-field>
+        <app-input-field
+          [placeholder]="'Short description'"
+          [formControlToUse]="asFormControl(generalFormGroup.get(FormControlNames.shortDescription))"></app-input-field>
+      </div>
+        <app-text-field
+            [placeholder]="'Full description'"
+            [formGroupToUse]="generalFormGroup"
+            [formControlNameToUse]="FormControlNames.fullDescription"></app-text-field>
+
+        <app-button
+            class="my-3"
+            text="Next step"
+            [color]="'primary-100'"
+            [size]="FieldSizes.EXTRA_SMALL"
+            (click)="currentView = WHERE_TEMPLATE"
+            [disabled]="!generalFormGroup.valid"></app-button>
+    </section>
+</ng-template>
+
+<ng-template #WHERE>
+    <section class="flex flex-col items-center justify-center gap-4" [formGroup]="detailsFormGroup">
+        <h2 class="text-xl lg:text-2xl text-text-primary font-bold font-rubik w-full lg:w-field-large lg:relative lg:right-9">
+            <i class="uil uil-map-marker text-2xl lg:text-3xl mr-2"></i>When & Where</h2>
+
+        <div class="flex gap-3 flex-col lg:flex-row w-full">
+            <app-input-field
+                [placeholder]="'Date'"
+                [formControlToUse]="asFormControl(detailsFormGroup.get(FormControlNames.date))"
+                [type]="InputFieldTypes.DATE"></app-input-field>
+            <app-input-field
+                [placeholder]="'Time'"
+                [formControlToUse]="asFormControl(detailsFormGroup.get(FormControlNames.time))"
+                [type]="InputFieldTypes.TIME"></app-input-field></div>
+
+            <app-input-field
+              placeholder="Address"
+              [formControlToUse]="asFormControl(detailsFormGroup.get(FormControlNames.address))"
+              [isMapInput]="true"
+            ></app-input-field>
+
+            <div class="flex gap-3 flex-col lg:flex-row w-full">
+              <app-input-field
+                placeholder="Postal code"
+                [formControlToUse]="asFormControl(detailsFormGroup.get(FormControlNames.postCode))"
+                [maxLength]="4"
+                [type]="InputFieldTypes.NUMBER">
+              </app-input-field>
+              <app-input-field
+                placeholder="City"
+                [formControlToUse]="asFormControl(detailsFormGroup.get(FormControlNames.city))">
+              </app-input-field>
+            </div>
+
+            <app-google-maps
+              [addressFormControl]="asFormControl(detailsFormGroup.get(FormControlNames.address))"
+              [postCodeFormControl]="asFormControl(detailsFormGroup.get(FormControlNames.postCode))"
+              [cityFormControl]="asFormControl(detailsFormGroup.get(FormControlNames.city))">
+            </app-google-maps>
+
+        <div class="flex items-center justify-center gap-4 my-3">
+            <app-button
+                text="Previous step"
+                [color]="'primary-100'"
+                [invertedColors]="true"
+                [size]="FieldSizes.EXTRA_SMALL"
+                (click)="currentView = GENERAL_TEMPLATE"></app-button>
+            <app-button
+                text="Next step"
+                [color]="'primary-100'"
+                [size]="FieldSizes.EXTRA_SMALL"
+                (click)="currentView = PRICING_TEMPLATE"
+                [disabled]="!detailsFormGroup.valid"></app-button>
+        </div>
+    </section>
+</ng-template>
+
+<ng-template #PRICING>
+    <section class="flex flex-col items-center justify-center gap-4">
+        <h2 class="text-xl lg:text-2xl text-text-primary font-bold font-rubik w-full lg:w-field-large lg:relative lg:right-9">
+            <i class="uil uil-money-stack text-2xl lg:text-3xl mr-2"></i>Pricing</h2>
+
+        <div *ngFor="let ticketFormGroup of tickets; let i = index"
+        class="flex gap-3 flex-col lg:flex-row w-full">
+
+            <app-input-field
+                [placeholder]="'Ticket type'"
+                [formControlToUse]="asFormControl(ticketFormGroup.get(FormControlNames.type))">
+            </app-input-field>
+            <app-input-field
+                [placeholder]="'Price'"
+                [formControlToUse]="asFormControl(ticketFormGroup.get(FormControlNames.price))">
+            </app-input-field>
+            <i class="uil uil-times-circle text-text-grey text-3xl cursor-pointer flex items-center"
+                (click)="removeTicketOption(i)"></i></div>
+
+      <div class="bg-primary-100 rounded-2xl" >
+        <app-icon-btn
+          [iconName]="IconNames.plus"
+          [isBackground]="false"
+          [isWhiteIcon]="true"
+          (click)="addTicketOption()"></app-icon-btn>
+      </div>
+
+        <div class="flex items-center justify-center gap-4 my-3">
+            <app-button
+                text="Previous step"
+                [color]="'primary-100'"
+                [invertedColors]="true"
+                [size]="FieldSizes.EXTRA_SMALL"
+                (click)="currentView = WHERE_TEMPLATE"></app-button>
+            <app-button
+                text="Next step"
+                [color]="'primary-100'"
+                [size]="FieldSizes.EXTRA_SMALL"
+                (click)="currentView = APPEARANCE_TEMPLATE"
+                [disabled]="!isPricingFormGroupValid"></app-button>
+        </div>
+
+        <a class="text-text-grey cursor-pointer text-sm hover:underline"
+        (click)="currentView = APPEARANCE_TEMPLATE">Skip for now</a>
+    </section>
+</ng-template>
+
+<ng-template #APPEARANCE>
+    <section class="flex flex-col items-center justify-center gap-4" [formGroup]="appearanceFormGroup">
+        <h2 class="text-xl lg:text-2xl text-text-primary font-bold font-rubik w-full lg:w-field-large lg:relative lg:right-9">
+            <i class="uil uil-star text-2xl lg:text-3xl mr-2"></i>Appearance</h2>
+
+        <div class="flex flex-col lg:flex-row justify-center gap-4 cursor-pointer items-center">
+            <!-- image container -->
+            <div (click)="openFileChooser()"
+                class="w-36 h-36 flex items-center justify-center rounded-xl"
+                [style.backgroundColor]="appearanceFormGroup.get('colorHex')?.value">
+
+                <img *ngIf="appearanceFormGroup.get('logoUrl')?.value && appearanceFormGroup.get('logoUrl')?.value!==''"
+                    [src]="appearanceFormGroup.get('logoUrl')!.value"
+                    class="max-h-full"/>
+                <span *ngIf="!appearanceFormGroup.get('logoUrl')?.value || appearanceFormGroup.get('logoUrl')?.value===''"
+                    class="text-text-white font-semibold">Upload file</span>
+            </div>
+
+            <div class="relative flex flex-col gap-2">
+
+                <!-- color hex -->
+                <div class="h-50px w-50px rounded-tl-xl rounded-bl-xl flex items-center justify-center absolute z-10"
+                [style.backgroundColor]="appearanceFormGroup.get('colorHex')?.value"
+                (click)="openColorPicker()">
+                <i class="uil uil-pen text-text-white font-semibold text-xl"></i></div>
+
+                <app-input-field
+                    placeholder="Color Hex"
+                    [formControlToUse]="asFormControl(appearanceFormGroup.get(FormControlNames.colorHex))"
+                    [marginLeft]="true"
+                    [size]="FieldSizes.MEDIUM"></app-input-field>
+
+                <input id="colorPickerTrigger"
+                    [(colorPicker)]="color"
+                    (colorPickerChange)="onColorPicked($event)"
+                    [cpOutputFormat]="'hex'"
+                    [cpAlphaChannel]="'disabled'"
+                    class="opacity-0 w-0 h-0"/>
+
+                <span class="text-text-primary w-field-medium"><span class="font-semibold">NOTE:</span> This color will be used to customise the page of this event.</span>
+            </div>
+
+        </div>
+
+        <div class="flex items-center justify-center gap-4 my-3">
+            <app-button
+                text="Previous step"
+                [color]="'primary-100'"
+                [invertedColors]="true"
+                [size]="FieldSizes.EXTRA_SMALL"
+                (click)="currentView = PRICING_TEMPLATE"></app-button>
+            <app-button
+                text="Finish"
+                [color]="'primary-100'"
+                [size]="FieldSizes.EXTRA_SMALL"
+                (click)="createEvent()"
+                [disabled]="!appearanceFormGroup.valid"></app-button>
+        </div>
+
+        <input class="hidden" id="chooseLogoTrigger" type="file" (change)="onFileSelected($event)" accept="image/png, image/jpeg"/>
+    </section>
+</ng-template>

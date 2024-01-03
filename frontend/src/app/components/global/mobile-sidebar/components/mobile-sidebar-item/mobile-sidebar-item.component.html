@@ -1,0 +1,6 @@
+<div class="dark:text-neutral-white flex items-center gap-2
+  {{isAccent ? 'py-1 px-2 bg-primary-100 rounded-xl text-neutral-white' : 'text-neutral-black'}}"
+     [routerLink]="item.link">
+  <i class="uil uil-{{item.iconName}} text-xl"></i>
+  <span class="text-base">{{item.text}}</span>
+</div>

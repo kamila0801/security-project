@@ -1,0 +1,57 @@
+<article class="bg-neutral-white dark:bg-gray-80 rounded-2xl w-96 h-auto p-6 text-neutral-black dark:text-neutral-white shadow-xl
+ hidden lg:grid" style="grid-template-rows: 40px 1fr 60px; max-height: 70vh">
+  <!-- close icon -->
+  <i class="uil uil-times text-2xl absolute float-right top-3 right-3 cursor-pointer" (click)="closeFiltersEmitter.emit()"></i>
+
+  <!-- filters header -->
+  <header class="text-lg">
+    <i class="uil uil-filter"></i>
+    <h1 class="ml-2 font-semibold inline-block">Filters</h1>
+  </header>
+
+  <!-- filters container -->
+  <div class="flex flex-col gap-5 w-full overflow-y-scroll" style="box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;">
+
+    <!-- filters array -->
+    <section *ngFor="let filter of filtersArray">
+      <header class="text-sm font-bold mb-1 flex justify-between">
+        <label>{{filter.label}}:</label>
+        <!-- clear icon -->
+        <i *ngIf="filter.canClear"
+          class="uil uil-times-circle text-primary-100 text-xl rounded-xl opacity-30 flex
+                  {{filter.formControl.value?.length === 0 || !filter.formControl.value ? 'cursor-default' : 'hover:opacity-100 cursor-pointer'}}"
+           (click)="clearFilter(filter)"></i>
+      </header>
+
+      <!-- filter with elements -->
+      <div *ngIf="filter.items && filter.items.length > 0"
+           class="{{filter.items.length > 4 ? 'flex flex-wrap gap-2' : 'grid grid-cols-2 gap-3'}}">
+        <app-text-chip  *ngFor="let item of filter.items"
+                        class="cursor-pointer"
+                        [text]="item.label"
+                        [isActive]="isItemActive(item, filter)"
+                        [size]="filter.items.length > 4 ? TextChipSizes.SMALL : TextChipSizes.MEDIUM"
+                        (click)="onItemSelected(item, filter)"></app-text-chip>
+      </div>
+
+      <!-- filter with price range -->
+      <app-slider-field *ngIf="filter.type === FilterType.PRICE_RANGE"
+        [minFormControlToUse]="asFormControl(filter.formControl.get(FormControlNames.minPrice))"
+        [maxFormControlToUse]="asFormControl(filter.formControl.get(FormControlNames.maxPrice))"></app-slider-field>
+
+      <!-- filter with date select -->
+      <app-date-select class="block mb-1"
+        *ngIf="filter.type === FilterType.DATE"
+        [dateFormControl]="filter.formControl">
+      </app-date-select>
+    </section>
+
+  </div>
+
+  <!-- buttons -->
+  <app-filters-card-buttons
+    (applyFiltersEmitter)="applyFiltersEmitter.emit()"
+    (closeFiltersEmitter)="closeFiltersEmitter.emit()">
+  </app-filters-card-buttons>
+</article>
+

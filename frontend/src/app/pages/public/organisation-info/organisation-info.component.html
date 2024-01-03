@@ -1,0 +1,87 @@
+<section class="flex flex-col gap-3" *ngIf="organisation">
+    <div class="flex items-center gap-3 mb-2">
+        <div class="w-32 h-32 flex items-center justify-center rounded-xl"
+             [style.backgroundColor]="organisation.colorHex">
+            <img *ngIf="organisation.imageUrl"
+                 [src]="fileService.getOrganisationLogo(organisation.imageUrl)"/>
+        </div>
+        <div class="flex flex-col gap-2">
+            <h1 class="text-2xl text-neutral-black dark:text-neutral-white font-semibold">{{organisation.name}}
+              <p *ngIf="userRole"
+                class="text-sm text-gray-70 inline">
+                  (You are a {{userRole.name}})</p></h1>
+            <p class="text-base text-text-primary font-normal">{{organisation.tagline}}</p>
+          <!--buttons----------------------------------------->
+            <div class="flex items-center justify-center gap-2">
+                <app-button
+                    (buttonClick)="viewMode = INFO_TEMPLATE"
+                    text="Homepage"
+                    icon="estate"
+                    [hexColor]="viewMode === INFO_TEMPLATE ? organisation.colorHex : undefined"
+                    [darkText]="viewMode !== INFO_TEMPLATE"
+                    [boldText]="false"></app-button>
+                <app-button
+                    (buttonClick)="viewMode = EVENTS_TEMPLATE"
+                    text="Events"
+                    icon="calender"
+                    color="bg-white"
+                    [hexColor]="viewMode === EVENTS_TEMPLATE ? organisation.colorHex : undefined"
+                    [darkText]="viewMode !== EVENTS_TEMPLATE"
+                    [boldText]="false"></app-button>
+                <app-button
+                    (buttonClick)="viewMode = MEMBERSHIP_TEMPLATE"
+                    text="Membership"
+                    icon="user-square"
+                    color="bg-white"
+                    [hexColor]="viewMode === MEMBERSHIP_TEMPLATE ? organisation.colorHex : undefined"
+                    [darkText]="viewMode !== MEMBERSHIP_TEMPLATE"
+                    [boldText]="false"></app-button>
+                <app-button
+                    (buttonClick)="viewMode = CONTACT_TEMPLATE"
+                    text="Contact"
+                    icon="incoming-call"
+                    color="bg-white"
+                    [hexColor]="viewMode === CONTACT_TEMPLATE ? organisation.colorHex : undefined"
+                    [darkText]="viewMode !== CONTACT_TEMPLATE"
+                    [boldText]="false"></app-button>
+            </div>
+        </div>
+    </div>
+    <ng-container [ngTemplateOutlet]="viewMode"></ng-container>
+</section>
+
+
+<ng-template #INFO>
+  <h2 class="text-xl text-text-primary font-semibold">Info</h2>
+  <p class="mb-2 text-sm text-text-primary">{{organisation.description}}</p>
+
+  <h2 class="text-xl text-text-primary font-semibold">Upcoming events</h2>
+  <section class="grid grid-cols-cards gap-4">
+<!--    <app-event-card
+      [event]="event"
+      *ngFor="let event of upcomingEvents"></app-event-card>-->
+  </section>
+</ng-template>
+
+<ng-template #EVENTS>
+  <h2 class="text-xl text-text-primary font-semibold">Events</h2>
+  <app-events [withFilterBar]="true"></app-events>
+</ng-template>
+
+<ng-template #MEMBERSHIP>
+  <h2 class="text-xl text-text-primary font-semibold">Membership</h2>
+  <div *ngIf="userRole?.hierarchyLevel === 0">
+    <h3 class="font-bold text-lg">Roles:</h3>
+    <li *ngFor="let role of roles">
+      <span class="font-semibold">{{role.name}}:</span>
+      <span *ngFor="let user of role.users">
+        {{user.fullName}} (id: {{user.id}})</span></li>
+
+  </div>
+</ng-template>
+
+<ng-template #CONTACT>
+  <h2 class="text-xl text-text-primary font-semibold">Contact</h2>
+  <span class="text-sm"><p class="font-semibold">Email: <p>{{organisation.email}}</span>
+  <span class="text-sm"><p class="font-semibold">Phone no.: </p>{{organisation.phoneNumber}}</span>
+</ng-template>

@@ -1,0 +1,18 @@
+//MAPS DROPDOWN
+::ng-deep .pac-container {
+    border-radius: 20px;
+    width: 274px !important;
+    margin-top: 10px;
+    margin-left: -15px;
+}
+
+::ng-deep .pac-item {
+    padding: 2px 4px;
+}
+
+//MAPS DISPLAY
+::ng-deep .map-container {
+    border-radius: 20px;
+    width: 100% !important;
+    height: 100% !important;
+}

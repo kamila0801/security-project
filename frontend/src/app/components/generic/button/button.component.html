@@ -1,0 +1,20 @@
+<button
+    [ngClass]="[bgColorClass, borderColorClass, textColorClass]"
+    [style.backgroundColor]="hexColor && !invertedColors ? hexColor : 'white'"
+    [class.font-semibold]="boldText"
+    [class.font-normal]="!boldText"
+    [class.cursor-not-allowed]="disabled"
+    [class.w-auto]="size === FieldSizes.AUTO"
+    [class.w-full]="size === FieldSizes.FULL"
+    [class.px-4]="size === FieldSizes.AUTO"
+    [class.w-field-xs]="size === FieldSizes.EXTRA_SMALL"
+    [class.w-field-small]="size === FieldSizes.SMALL"
+    [class.w-field-medium]="size === FieldSizes.MEDIUM"
+    class="h-10 rounded-2xl text-xs flex items-center justify-center gap-1 border-2 filter hover:brightness-75"
+    [disabled]="disabled"
+    (click)="buttonClick.emit()">
+    <i *ngIf="icon"
+        class="uil text-lg"
+        [ngClass]="'uil-'+icon"></i>
+    {{text}}
+</button>

@@ -1,0 +1,7 @@
+<button class="w-10 h-10 rounded-xl flex items-center justify-center text-neutral-black dark:text-neutral-white"
+        [ngClass]="isBackground ? 'bg-neutral-white dark:bg-gray-110' : ''"
+        [style.color]="isWhiteIcon ? '#fff !important' : ''"
+        [tabIndex]="tabIndex">
+    <i class="uil text-xl"
+    [ngClass]="'uil-'+ iconName"></i>
+</button>

@@ -1,0 +1,27 @@
+<div class="h-16 lg:h-20 flex items-center justify-between" [formGroup]="formGroup">
+<!--  Right side-->
+  <div class="h-full flex items-center w-1/4">
+    <app-input-field
+      class="hidden lg:block max-w-xs"
+      [placeholder]="'Search'"
+      [iconLeft]="IconNames.search_alt"
+      [formControlToUse]="asFormControl(formGroup.get(FormControlNames.searchbar))">
+    </app-input-field>
+    <app-mobile-sidebar class="lg:hidden"></app-mobile-sidebar>
+  </div>
+<!--  Right side-->
+  <div class="flex gap-2">
+<!--    Action buttons-->
+    <ng-container *ngFor="let item of topBarItems">
+      <app-topbar-item [item]="item"></app-topbar-item>
+    </ng-container>
+    <!--TODO: fetch actual profile picture-->
+    <img
+      src="/assets/svgs/temp-profile-pic.svg" class="w-10 h-10 rounded-xl"
+      [routerLink]="NavigationUrls.userInfo"/>
+    <!--TODO: fetch actual user name-->
+    <span
+      class="self-center whitespace-nowrap text-sm text-neutral-black dark:text-neutral-white hidden lg:flex">
+      {{userStore.user ? (userStore.user.data?.firstName + " " + userStore.user.data?.lastName) : 'Julie Jansen'}}</span>
+  </div>
+</div>

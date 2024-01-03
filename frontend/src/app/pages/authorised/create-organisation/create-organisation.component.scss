@@ -1,0 +1,14 @@
+//COLOR PICKER
+::ng-deep .color-picker {
+    border-radius: 20px;
+    border: none !important;
+}
+
+::ng-deep .color-picker .saturation-lightness {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+::ng-deep .color-picker .arrow {
+    display: none !important;
+}

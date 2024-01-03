@@ -1,0 +1,10 @@
+<article class="flex justify-between font-bold text-gray-70 dark:text-gray-50 relative">
+  <section *ngFor="let item of menuItems; let i = index" class="cursor-pointer"
+    (click)="focusItem(item)">
+    <p id="{{'item-' + i}}">{{item.header}}</p>
+  </section>
+
+  <div class="h-1 bg-primary-100 absolute transition-all -bottom-3 transition-all"
+       [style.width.px]="calculateActiveItemWidth"
+       [style.transform]="'translateX(' + calculateActiveItemLeft + 'px)'"></div>
+</article>

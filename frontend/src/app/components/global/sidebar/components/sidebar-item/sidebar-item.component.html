@@ -1,0 +1,38 @@
+<div class="">
+  <div id="{{itemId}}"
+       [matTooltip]="text" matTooltipPosition="after"
+       class="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 cursor-pointer select-none z-20"
+       [ngClass]="{
+            'text-neutral-white hover:text-neutral-white': isUrlMatch() && animationStatusStore.getSidebarItemMoving === StatusType.COMPLETED,
+            'bg-primary-100 text-neutral-white hover:bg-primary-20': solidColor,
+            'bg-gray-10 dark:bg-gray-120 hover:bg-gray-20 dark:hover:bg-gray-90': !isColorModeToggle && !solidColor}"
+       (click)="toggleList(); onItemClick(!subItems)">
+    <!--ICON--------------------------------------------------------------------------------------------------------->
+    <i class="uil {{iconName}} text-xl z-50 dark:text-neutral-white" [ngClass]="{'rotate-180': isIconInverted, 'rotate-0': !isIconInverted}" *ngIf="!isColorModeToggle"></i>
+    <!--COLOR MODE TOGGLE-------------------------------------------------------------------------------------------->
+    <app-toggle *ngIf="isColorModeToggle"></app-toggle>
+    <!--COLOR MODE TOGGLE-------------------------------------------------------------------------------------------->
+    <div class="w-full transition-opacity duration-200 truncate flex items-center transform z-50"
+         [ngClass]="{
+           'opacity-100 w-full': isSidebarOpen,
+           'opacity-0 w-0': !isSidebarOpen }">
+      <p class="transition-opacity duration-200 truncate w-full">{{text}}</p>
+      <i class="uil uil-angle-down transition-transform duration-200 text-2xl truncate origin-center"
+         *ngIf="subItems"
+         [ngStyle]="{
+           'transform': isListOpen ? 'perspective(600px) rotateX(-180deg)' : 'perspective(600px) rotateX(0deg)'}"></i>
+    </div>
+  </div>
+
+  <ul class="overflow-hidden transition-all duration-500 ease-in-out linear border-l-2 border-gray-50 ml-6 space-y-2"
+      [style.max-height.px]="isListOpen ? subItems.length * 48 : 0"
+      [ngClass]="{'mt-4 py-1': isListOpen}"
+      *ngIf="subItems">
+    <li *ngFor="let subItems of subItems" [routerLink]="subItems.link" class="relative flex gap-2 items-center pl-2 ml-2 transition-opacity duration-300 cursor-pointer rounded-2xl py-1 hover:bg-gray-20 bg-gray-5"
+        [ngClass]="{ 'opacity-100': isSidebarOpen, 'opacity-0': !isSidebarOpen }" (click)="onItemClick(true)">
+      <i class="uil {{subItems.iconName}} text-2xl"></i>
+      <p class="transition-opacity duration-300 truncate"
+         [ngClass]="{ 'opacity-100': isSidebarOpen, 'opacity-0': !isSidebarOpen }">{{subItems.text}}</p>
+    </li>
+  </ul>
+</div>

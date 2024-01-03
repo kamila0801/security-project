@@ -1,0 +1,74 @@
+<!-- Label -->
+<div *ngIf="label" class="font-semibold text-sm text-neutral-black dark:text-neutral-white font-rubik font-black">
+  {{label}}
+  <!-- Red required dot -->
+  <span *ngIf="isFieldRequired()" class="font-semibold text-sm text-red-100">*</span>
+</div>
+
+<!-- Select field -->
+<div class="h-56px rounded-2xl bg-neutral-white focus-within:outline-2 focus-within:ring-2 focus-within:ring-primary-100 hover:ring-2 hover:ring-primary-100 cursor-pointer select-none"
+     [ngClass]="{ 'ring-2 ring-primary-100': select.panelOpen }" (click)="select.open()"
+  *ngIf="formControlToUse">
+  <mat-form-field [subscriptSizing]="'dynamic'" class="text-sm w-full">
+    <!-- Placeholder -->
+    <mat-label>{{placeholder}}</mat-label>
+    <!-- Mat select -->
+    <mat-select #select
+      [compareWith]="compareBySortValue"
+      (openedChange)="test($event)"
+      disableOptionCentering
+      [formControl]="formControlToUse">
+        <mat-option class="border-b-2 border-gray-20" *ngIf="shouldSearchBeEnabled">
+          <ngx-mat-select-search [formControl]="searchControl" [hideClearSearchButton]="true" [placeholderLabel]="'Search...'">
+            <div id="uniqueId" class="mat-select-search-custom-header-content h-full right-0.5 top-0 flex items-center pointer-events-none">
+              <i class="uil uil-search-alt flex text-neutral-black dark:text-neutral-white text-2xl"></i>
+            </div>
+          </ngx-mat-select-search>
+        </mat-option>
+        <mat-option
+          *ngIf="formControlToUse.value && !shouldIncludeOrder"
+          [value]="formControlToUse.value"
+          [disabled]="true"
+          style="display: none !important;">
+          {{displayValue ? formControlToUse.value[displayValue] : formControlToUse.value}}
+        </mat-option>
+        <mat-option class="font-rubik text-sm"
+          *ngIf="getFilteredList.length === 0"
+          [value]="formControlToUse.value"
+          [disabled]="true">
+          No results found
+        </mat-option>
+      <mat-option class="relative font-rubik text-sm"
+        *ngIf="shouldShowAllOption"
+        [class.font-semibold]="formControlToUse.value === ''"
+        [value]="''">
+        All
+        <div *ngIf="formControlToUse.value === ''" class="absolute h-full right-4 top-0 flex items-center pointer-events-none">
+          <i class="uil uil-check text-primary-100 text-2xl"></i>
+        </div>
+      </mat-option>
+      <mat-option class="relative font-rubik text-sm !hover:bg-red-100" *ngFor="let item of getFilteredList"
+        [ngClass]="{ 'exclude': shouldIncludeOrder }"
+        [class.font-semibold]="formControlToUse.value === (itemValue ? item[itemValue] : item)"
+        (onSelectionChange)="onClickTest($event)"
+        (click)="shouldIncludeOrder ? select.open() : ''"
+        [value]="itemValue ? item[itemValue] : item">
+        {{displayValue ? item[displayValue] : item}}
+        <div *ngIf="shouldIncludeOrder && formControlToUse.value.sortValue === item.sortValue" class="absolute h-full right-4 top-0 flex items-center pointer-events-none">
+          <i class="uil uil-angle-double-down text-2xl text-neutral-black transition-all transform duration-200 rotate-0 origin-center" id="arrow-icon"
+             [ngClass]="formControlToUse.value.sortOrder === SortOrderEnum.ASC ? 'rotate-90' : 'rotate-0'">
+          </i>
+        </div>
+        <div *ngIf="formControlToUse.value === (itemValue ? item[itemValue] : item) && !shouldIncludeOrder" class="absolute h-full right-4 top-0 flex items-center pointer-events-none">
+          <i class="uil uil-check text-primary-100 text-2xl"></i>
+        </div>
+      </mat-option>
+      </mat-select>
+      <div class="absolute h-full right-0.5 top-0 flex items-center pointer-events-none">
+        <i class="uil uil-angle-down text-neutral-black dark:text-neutral-white text-2xl transition-all transform duration-200 rotate-0 origin-center"
+           [ngClass]="select.panelOpen ? 'rotate-90' : 'rotate-0'"></i>
+      </div>
+    </mat-form-field>
+</div>
+
+

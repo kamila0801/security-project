@@ -1,0 +1,13 @@
+<article class="flex flex-row space-x-2 justify-between items-center">
+  <label for="{{ label + '-text-input' }}" class="text-gray-90 dark:text-neutral-white laptop:text-sm font-bold flex flex-row space-x-2">
+    {{ label }}
+
+    <!--  Optional field text indication -->
+    <span *ngIf="isFieldOptional && showOptional" class="pl-1 text-light-text-primary dark:text-dark-text-primary laptop:text-sm font-italic font-bold opacity-50 text-sm flex items-center font-quicksand">{{ 'Optional' }}</span>
+  </label>
+  <!--  Displaying the character limit-->
+  <article *ngIf="maxLength" class="self-end">
+
+    <p class="text-xs font-quicksand text-gray-80">{{currentLength + ' / ' + maxLength}}</p>
+  </article>
+</article>

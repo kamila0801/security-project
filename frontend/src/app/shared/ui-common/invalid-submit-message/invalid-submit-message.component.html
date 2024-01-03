@@ -1,0 +1,8 @@
+<article *ngIf="shouldShow" class="py-2 bg-red-60 rounded-lg justify-center items-center gap-2 inline-flex w-full cursor-pointer"
+         (click)="closeMessage()">
+  <app-icon
+    [icon]="'exclamation-octagon'"
+    class="text-xl text-neutral-black">
+  </app-icon>
+  <p class="text-neutral-black text-sm font-normal font-rubik">Incorrect username or password</p>
+</article>

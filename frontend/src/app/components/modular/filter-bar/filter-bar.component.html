@@ -1,0 +1,38 @@
+<section class="flex flex-row items-center justify-between ">
+  <app-input-field *ngIf="getTextSearchFilter"
+    class="hidden lg:block w-52"
+    [placeholder]="'Search'"
+    [iconLeft]="IconNames.search_alt"
+    [formControlToUse]="getTextSearchFilter.formControl">
+  </app-input-field>
+
+  <div class="flex flex-row items-center gap-2 relative">
+    <app-button
+      [darkText]="true"
+      [text]="'Filters'"
+      [icon]="'filter'"
+      (buttonClick)="areFiltersOpen = !areFiltersOpen"
+    ></app-button>
+
+    <app-icon-btn
+      [iconName]="'window'"></app-icon-btn>
+
+    <app-filters-card
+      class="absolute z-30 top-12 right-0"
+      *ngIf="areFiltersOpen"
+      [filtersArray]="filtersWithoutTextSearch"
+      (applyFiltersEmitter)="onFiltersApplied()"
+      (closeFiltersEmitter)="areFiltersOpen = false;"></app-filters-card>
+  </div>
+</section>
+
+
+<app-overlay
+  *ngIf="areFiltersOpen"
+  class="lg:hidden"></app-overlay>
+<app-filters-card-mobile
+  class="lg:hidden fixed left-0 z-30 transition-all w-full"
+  [style.bottom]="areFiltersOpen ? '0px' : '-1000px'"
+  [filtersArray]="filtersWithoutTextSearch"
+  (applyFiltersEmitter)="applyFiltersEmitter.emit(); areFiltersOpen = false;"
+  (closeFiltersEmitter)="areFiltersOpen = false;"></app-filters-card-mobile>

@@ -1,0 +1,44 @@
+<app-icon-btn
+  class="flex"
+  iconName="{{IconNames.bars}}"
+  (click)="openSidebar()"></app-icon-btn>
+
+<!-- overlay -->
+<app-overlay *ngIf="isOpen" (onClickEmitter)="closeSidebar()"></app-overlay>
+
+<!-- open sidebar -->
+<section
+  class="z-20 fixed top-0 h-full w-56 bg-neutral-white dark:bg-gray-110 p-4 flex flex-col gap-2 transition-all duration-300
+  {{isOpen ? 'left-0' : '-left-56'}}">
+
+  <!-- close icon -->
+  <div class="absolute top-1 right-1 text-neutral-black dark:text-neutral-white" (click)="closeSidebar()">
+    <i class="uil uil-times-circle text-xl"></i>
+  </div>
+
+  <!-- logo -->
+  <div class="flex gap-2 items-center border-b-2 border-neutral-black dark:border-neutral-white pb-4 mb-2">
+    <img src="/assets/svgs/logo.svg" class="w-10 h-10"/>
+    <p class="font-semibold text-xl transition-opacity duration-200 truncate text-neutral-black dark:text-neutral-white">Eventor</p>
+  </div>
+
+  <!-- items -->
+  <app-mobile-sidebar-item
+    *ngFor="let item of sidebarItems"
+    [item]="item"
+    (click)="closeSidebar()"></app-mobile-sidebar-item>
+
+  <!-- color mode -->
+  <div class="flex justify-between border-t-2 border-neutral-black dark:border-neutral-white pt-3 mt-5">
+    <span class="text-base font-medium text-neutral-black dark:text-neutral-white">{{colorModeStore.isDarkMode ? 'Darkmode' : 'Lightmode'}}</span>
+    <app-toggle></app-toggle>
+  </div>
+
+  <div class="h-full"></div>
+
+  <app-mobile-sidebar-item
+    [item]="{iconName: IconNames.signInAlt, text: 'Login', link: NavigationUrls.login}"
+    [isAccent]="true"
+    (click)="closeSidebar()"></app-mobile-sidebar-item>
+
+</section>

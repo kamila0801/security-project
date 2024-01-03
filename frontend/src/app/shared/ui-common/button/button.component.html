@@ -1,0 +1,22 @@
+<article>
+  <button
+    id="{{btnText}}-button"
+    [disabled]="disabled"
+    (click)="onClick.emit()"
+    class="rounded-lg text-sm flex items-center justify-center gap-1 py-4 cursor-pointer text-neutral-white w-full border-none outline-none"
+    [ngClass]="{
+      'bg-gray-40 cursor-not-allowed': disabled,
+      'bg-primary-100 hover:bg-primary-120 focus:bg-primary-120': btnStyle === 'normal' && !disabled,
+      'bg-red-100 hover:bg-red-120' : btnStyle === 'attention'&& !disabled,
+      'bg-yellow-100 hover:bg-yellow-120' : btnStyle === 'warning'&& !disabled,
+      'bg-blue-100 hover:bg-blue-120': btnStyle === 'info'&& !disabled,
+      'bg-green-100 hover:bg-green-120': btnStyle === 'proceed' && !disabled }">
+    <i
+      *ngIf="icon"
+      class="uil text-lg"
+      [ngClass]="'uil-'+icon">
+    </i>
+    {{btnText}}
+  </button>
+</article>
+
